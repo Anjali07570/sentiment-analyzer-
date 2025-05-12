@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sentiment Analyzer 🌸</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* Default Cherry Blossom Theme */
+    .cherry-blossom {
+      background: url('h.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #444;
+    }
+
+    /* Dark Theme for Negative/Sad Sentiment */
+    .dark-theme {
+      background: url('bad.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #aaa;
+    }
+
+    /* Green Pastel Theme for Neutral Sentiment */
+    .green-pastel {
+      background: url('nu.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #444;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.4); /* Transparent white background */
+      backdrop-filter: blur(10px); /* Blur the background behind the box */
+      padding: 50px 60px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      transition: background 0.5s ease, border-color 0.5s ease;
+    }
+
+    .content.cherry-box {
+      background-color: rgba(255, 255, 255, 0.6);
+      border: 2px solid #fcb3b3;
+    }
+
+    .content.dark-box {
+      background-color: rgba(45, 45, 45, 0.75);
+      border: 2px solid #2b2b2b;
+    }
+
+    .content.green-box {
+      background-color: rgba(200, 255, 200, 0.75);
+      border: 2px solid #b2f0c7;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 25px;
+      color: #d57aa6;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 15px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: 1px solid #eecce1;
+      background-color: #fff5fa;
+      color: #444;
+      outline: none;
+      resize: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 35px;
+      border: none;
+      background-color: #ffd1dc;
+      color: #444;
+      font-weight: bold;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255, 209, 220, 0.5);
+    }
+
+    button:hover {
+      background-color: #ffc2d1;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 192, 209, 0.6);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #8e7cc3;
+    }
+  </style>
+</head>
+<body class="cherry-blossom">
+
+  <div class="content cherry-box">
+    <h1>💖 Sentiment Analyzer 💖</h1>
+    <form id="analyzeForm">
+      <textarea placeholder="Type something soft and sweet..." required></textarea><br>
+      <button type="submit">Analyze</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Sentiment analyzer logic
+    const form = document.getElementById('analyzeForm');
+    const resultDiv = document.getElementById('result');
+    const body = document.body;
+    const contentBox = document.querySelector('.content');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = form.querySelector('textarea').value.toLowerCase();
+
+      let sentiment = 'Neutral';
+      if (text.includes("happy") || text.includes("great") || text.includes("good") || text.includes("love") || text.includes("sweet")) {
+        sentiment = 'Positive';
+      } else if (text.includes("sad") || text.includes("bad") || text.includes("angry") || text.includes("hate") || text.includes("worst")) {
+        sentiment = 'Negative';
+      }
+
+      resultDiv.textContent = `Sentiment: ${sentiment}`;
+
+      // Clear previous body classes
+      body.classList.remove('cherry-blossom', 'dark-theme', 'green-pastel');
+
+      // Change theme based on sentiment
+      if (sentiment === 'Positive') {
+        body.classList.add('cherry-blossom');
+        contentBox.classList.remove('dark-box', 'green-box');
+        contentBox.classList.add('cherry-box');
+      } else if (sentiment === 'Negative') {
+        body.classList.add('dark-theme');
+        contentBox.classList.remove('cherry-box', 'green-box');
+        contentBox.classList.add('dark-box');
+      } else {
+        body.classList.add('green-pastel');
+        contentBox.classList.remove('cherry-box', 'dark-box');
+        contentBox.classList.add('green-box');
+      }
+    });
+  </script>
+
+</body>
+</html>
